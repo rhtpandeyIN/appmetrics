@@ -54,17 +54,17 @@ var showLegalWarning = function() {
 	console.log(new Date().toUTCString());
 	console.log('********************************************************************************');
 	console.log('You are installing the Node Application Metrics monitoring and profiling module.');
-    console.log('Licensed under the Apache License, Version 2.0 (the "License")');
-    console.log('you may not use this file except in compliance with the License.');
-    console.log('You may obtain a copy of the License at');
-    console.log('');
-    console.log('http://www.apache.org/licenses/LICENSE-2.0');
-    console.log('');
-    console.log('Unless required by applicable law or agreed to in writing, software');
-    console.log('distributed under the License is distributed on an "AS IS" BASIS,');
-    console.log('WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.');
-    console.log('See the License for the specific language governing permissions and');
-    console.log('limitations under the License.');	
+	console.log('Licensed under the Apache License, Version 2.0 (the "License")');
+	console.log('you may not use this file except in compliance with the License.');
+	console.log('You may obtain a copy of the License at');
+	console.log('');
+	console.log('http://www.apache.org/licenses/LICENSE-2.0');
+	console.log('');
+	console.log('Unless required by applicable law or agreed to in writing, software');
+	console.log('distributed under the License is distributed on an "AS IS" BASIS,');
+	console.log('WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.');
+	console.log('See the License for the specific language governing permissions and');
+	console.log('limitations under the License.');	
 	console.log('********************************************************************************');
 };
 
@@ -86,7 +86,7 @@ var ensureSupportedPlatformOrExit = function() {
 	var platform = getPlatform();
 	if (AGENTCORE_PLATFORMS.indexOf(platform) === -1) {
 		console.log(platform + ' is not a currently supported platform. Exiting');
-	  fail();
+		fail();
 	}
 };
 
@@ -116,7 +116,7 @@ var getSupportedNodeVersionOrExit = function() {
 		return '8';
 	}
 	console.log('Unsupported version ' + process.version + '. Trying rebuild.');
-  fail();
+	fail();
 };
 
 var getAgentCorePlatformVersionDownloadURL = function() {
@@ -133,46 +133,45 @@ var getWindowsRedisFiles = function() {
 
 var downloadAndExtractTGZ = function(filepath, destDir, agentCoreFlag) {
  	if (agentCoreFlag) {
-    if(fs.existsSync('binaries/agentcore/tgz/'+filepath)) {
-		  fs.createReadStream('binaries/agentcore/tgz/'+filepath).pipe(zlib.createGunzip()).on('error', function(err) {
-			  console.log('ERROR: Failed to gunzip ' + filepath + ': ' + err.message);
-        fail();
-		  })
-		  .pipe(tar.Extract({path: destDir})).on('error', function(err) {
-			  console.log('ERROR: Failed to untar ' + filepath + ': ' + err.message);
-        fail();
-		  })
-		  .on('close', function() {
-			  console.log('Download and extract of ' + filepath + ' finished.');
-		  });
-    } else {
-      console.log(filepath + " does not exist.")
-      fail();
-    }
+		if(fs.existsSync('binaries/agentcore/tgz/'+filepath)) {
+			fs.createReadStream('binaries/agentcore/tgz/'+filepath).pipe(zlib.createGunzip()).on('error', function(err) {
+				console.log('ERROR: Failed to gunzip ' + filepath + ': ' + err.message);
+				fail();
+			})
+			.pipe(tar.Extract({path: destDir})).on('error', function(err) {
+				console.log('ERROR: Failed to untar ' + filepath + ': ' + err.message);
+				fail();
+			})
+			.on('close', function() {
+				console.log('Download and extract of ' + filepath + ' finished.');
+			});
+		} else {
+			console.log(filepath + " does not exist.")
+			fail();
+		}
 	} else {
-    if(fs.existsSync('binaries/appmetrics/tgz/'+filepath)) {
-		  fs.createReadStream('binaries/appmetrics/tgz/'+filepath).pipe(zlib.createGunzip()).on('error', function(err) {
-			  console.log('ERROR: Failed to gunzip ' + filepath + ': ' + err.message);
-        fail();
-		  })
-		  .pipe(tar.Extract({path: destDir})).on('error', function(err) {
-			  console.log('ERROR: Failed to untar ' + filepath + ': ' + err.message);
-        fail();
-		  })
-		  .on('close', function() {
-			  console.log('Download and extract of ' + filepath + ' finished.');
-		  });
-    } else {
-      console.log(filepath + " does not exist.")
-      fail();
-    }
+		if(fs.existsSync('binaries/appmetrics/tgz/'+filepath)) {
+			fs.createReadStream('binaries/appmetrics/tgz/'+filepath).pipe(zlib.createGunzip()).on('error', function(err) {
+				console.log('ERROR: Failed to gunzip ' + filepath + ': ' + err.message);
+				fail();
+			})
+			.pipe(tar.Extract({path: destDir})).on('error', function(err) {
+				console.log('ERROR: Failed to untar ' + filepath + ': ' + err.message);
+				fail();
+			})
+			.on('close', function() {
+				console.log('Download and extract of ' + filepath + ' finished.');
+			});
+		} else {
+			console.log(filepath + " does not exist.")
+			fail();
+		}
 	}
-	
 };
 
 function fail() {
-  console.log('Falling back to node-gyp rebuild');
-  process.exit(1);
+	console.log('Falling back to node-gyp rebuild');
+	process.exit(1);
 }
 
 var installWinRedis = function(filepath, destDir) {
@@ -197,6 +196,6 @@ ensureSupportedPlatformOrExit();
 downloadAndExtractTGZ(getAgentCorePlatformVersionDownloadURL(), '.', true);
 downloadAndExtractTGZ(getAppMetricsPlatformVersionDownloadURL(), '.', false);
 if(OS === 'win32') {
-  installWinRedis(getWindowsRedisFiles(), '.');
+	installWinRedis(getWindowsRedisFiles(), '.');
 }
 
